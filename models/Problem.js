@@ -4,6 +4,8 @@ const {Schema} = mongoose;
 const problemSchema = new Schema({
     name: String,
     url: String,
+    // rating: Number,
+    // tag: String,
 })
 
-mongoose.model('problems', problemSchema);
+var Problems = mongoose.model('Problems', problemSchema);

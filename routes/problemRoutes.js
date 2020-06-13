@@ -1,12 +1,31 @@
+var assert = require('assert');
 const mongoose = require('mongoose');
-const Problem = mongoose.model('problems');
+const Problems = mongoose.model('Problems');
 
 module.exports = (app) => {
 
   app.get(`/api/problem`, async (req, res) => {
-    let problems = await Problem.find();
+    let problems = await Problems.find();
     return res.status(200).send(problems);
   });
+
+  app.get(`/api/problem/:name`, async (req, res) => {
+    const problem_name = req.params.name;
+    Problems.find({name : problem_name}, function(error, problem) {
+      assert.ifError(error);
+      assert.ok(problem);
+      return res.status(200).send(problem);
+    });
+  });
+
+  // app.get(`/api/problem/:tag`, async (req, res) => {
+  //   const problem_tag = req.params.tag;
+  //   Problems.find({tag : problem_tag}, function(error, doc) {
+  //     assert.ifError(error);
+  //     assert.ok(doc);
+  //     return res.status(200).send(doc);
+  //   });
+  // });
 
   app.post(`/api/problem`, async (req, res) => {
     let problem = await Problem.create(req.body);
